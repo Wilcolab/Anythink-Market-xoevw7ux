@@ -37,3 +37,101 @@ The FastAPI server provides the following API routes:
 - `POST /tasks`: Adds a task to the task list. The request body should contain the task details.
 
 - `GET /tasks`: Retrieves the task list.
+  
+# Node Server
+
+This project also includes a Node.js server implemented with Express. It provides similar functionality for managing a task list.
+
+## Project Structure
+
+The Node.js server has the following files and directories:
+
+- `node-server/src/index.js`: Contains the Express server implementation with routes for adding and retrieving tasks.
+- `node-server/src/__init__.js`: (Optional) Used for module initialization if needed.
+- `node-server/package.json`: Lists dependencies and scripts for the Node.js server.
+- `node-server/Dockerfile`: Builds a Docker image for the Node.js server.
+- `docker-compose.yml`: Defines both the Python and Node.js services.
+
+## Getting Started
+
+To run the Node.js server using Docker:
+
+- Build and start the containers:
+
+  ```shell
+  docker compose up
+  ```
+
+- The Node.js server will be accessible at port `8001` by default.
+
+## API Routes
+
+The Node.js server provides the following API routes:
+
+- `POST /tasks`: Adds a task to the task list. The request body should contain the task details.
+- `GET /tasks`: Retrieves the task list.
+
+# Anythink Market
+
+## Startup Instructions
+
+### Running Both Servers with Docker Compose
+
+1. **Build and start both servers:**
+
+   ```bash
+   docker-compose up --build
+   ```
+
+   - The **Python server** will be available at [http://localhost:8000](http://localhost:8000)
+   - The **Node.js server** will be available at [http://localhost:8001](http://localhost:8001)
+
+---
+
+### Running Servers Individually
+
+#### Python Server
+
+1. Navigate to the Python server directory:
+
+   ```bash
+   cd python-server
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Start the server:
+
+   ```bash
+   python src/main.py
+   ```
+
+   The server will run on [http://localhost:8000](http://localhost:8000)
+
+---
+
+#### Node.js Express Server
+
+1. Navigate to the Node server directory:
+
+   ```bash
+   cd node-server/my-express-app
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   yarn install
+   ```
+
+3. Start the server with nodemon:
+
+   ```bash
+   yarn start
+   ```
+
+   The server will run on [http://localhost:8001](http://localhost:8001)
