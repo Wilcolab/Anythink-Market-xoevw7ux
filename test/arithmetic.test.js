@@ -95,7 +95,107 @@ describe('Arithmetic', function () {
 
 // TODO: Challenge #1
  
+    describe('Subtraction', function () {
+        it('subtracts two positive integers', function (done) {
+            request.get('/arithmetic?operation=subtract&operand1=42&operand2=21')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 21 });
+                    done();
+                });
+        });
+        it('subtracts a larger number from a smaller number', function (done) {
+            request.get('/arithmetic?operation=subtract&operand1=21&operand2=42')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: -21 });
+                    done();
+                });
+        });
+        it('subtracts zero from a number', function (done) {
+            request.get('/arithmetic?operation=subtract&operand1=42&operand2=0')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 42 });
+                    done();
+                });
+        });
+        it('subtracts a number from zero', function (done) {
+            request.get('/arithmetic?operation=subtract&operand1=0&operand2=42')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: -42 });
+                    done();
+                });
+        });
+        it('subtracts two negative numbers', function (done) {
+            request.get('/arithmetic?operation=subtract&operand1=-21&operand2=-42')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 21 });
+                    done();
+                });
+        });
+        it('subtracts floating point numbers', function (done) {
+            request.get('/arithmetic?operation=subtract&operand1=2.5&operand2=1.2')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 1.3 });
+                    done();
+                });
+        });
+        it('subtracts using exponential notation', function (done) {
+            request.get('/arithmetic?operation=subtract&operand1=1e2&operand2=2e1')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 80 });
+                    done();
+                });
+        });
+    });
 
+    describe('Edge Cases', function () {
+        it('returns error for missing operand2', function (done) {
+            request.get('/arithmetic?operation=add&operand1=42')
+                .expect(400)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ error: "Invalid operand2: undefined" });
+                    done();
+                });
+        });
+        it('returns error for invalid operand2', function (done) {
+            request.get('/arithmetic?operation=add&operand1=42&operand2=abc')
+                .expect(400)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ error: "Invalid operand2: abc" });
+                    done();
+                });
+        });
+        it('returns error for invalid operation type', function (done) {
+            request.get('/arithmetic?operation=dividee&operand1=42&operand2=2')
+                .expect(400)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ error: "Invalid operation: dividee" });
+                    done();
+                });
+        });
+        it('handles large numbers', function (done) {
+            request.get('/arithmetic?operation=add&operand1=1000000000&operand2=1000000000')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 2000000000 });
+                    done();
+                });
+        });
+        it('handles small floating point numbers', function (done) {
+            request.get('/arithmetic?operation=multiply&operand1=1e-10&operand2=1e-10')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 1e-20 });
+                    done();
+                });
+        });
+    });
     describe('Multiplication', function () {
         it('multiplies two positive integers', function (done) {
             request.get('/arithmetic?operation=multiply&operand1=21&operand2=2')
